@@ -6,7 +6,10 @@ public class Student {
     private String birthDate;
     private String name;
     private boolean gender;
-    public static int Max = 1;
+    //public static int Max = 1;
+	/*
+	#40 全局变量要用static
+	*/
 
     public int getId() {
         return id;

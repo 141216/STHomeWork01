@@ -20,6 +20,9 @@ public class StudentManager {
                             + "6 退出\n"
             );
             String str = input.next();
+			/*
+			#19 句式符合规范
+			*/
             switch (str) {
                 case "1":
                     add();
@@ -46,6 +49,11 @@ public class StudentManager {
     private static void exit() {
         System.out.print("已退出\n");
         System.exit(0);
+		
+		return ;
+		/*
+		#46 确保有返回值,返回空
+		*/
     }
 
 
@@ -54,12 +62,24 @@ public class StudentManager {
         System.out.print("修改操作\n");
         System.out.println("输入要修改学生的ID：");
         int id = input.nextInt();
-        Student s = students.get(id);
-        System.out.println("输入要修改为的出生日期：");
-        s.setBirthDate(input.next());
-
-        students.put(s.getId(), s);
-        System.out.println("修改成功");
+		/*
+		#43 入口对象判断不为空
+		*/
+		if(id!=null){
+			Student s = students.get(id);
+			System.out.println("输入要修改为的出生日期：");
+			s.setBirthDate(input.next());
+			students.put(s.getId(), s);
+			System.out.println("修改成功");
+		}
+		else{
+			System.out.println("修改失败");
+		}
+		
+		return ;
+		/*
+		#46 确保有返回值,返回空
+		*/
     }
 
     //删除
@@ -67,12 +87,23 @@ public class StudentManager {
         System.out.print("删除操作\n");
         System.out.println("输入要删除学生的ID：");
         int id = input.nextInt();
-        Student s = new Student();
-        s.setId(id);
-
-        students.remove(s.getId());
-        System.out.println("删除成功");
+		/*
+		#43 入口对象判断不为空
+		*/
+		if(id!=null){
+			Student s = new Student();
+			s.setId(id);
+			students.remove(s.getId());
+			System.out.println("删除成功");
         //Student.Max--;
+		}
+		else{
+			System.out.println("删除失败");
+		}
+		return ;
+		/*
+		#46 确保有返回值,返回空
+		*/
     }
 
     private static void select() {
@@ -80,28 +111,40 @@ public class StudentManager {
         System.out.println("输入要查询学生的ID：");
         Integer id = input.nextInt();
         int cnt = 0;
-        for (Map.Entry<Integer,Student> entry : students.entrySet()) {
-            if (id.equals(entry.getKey()))//比较内容是否存在，是的话打印
-            {
-                cnt++;
-                System.out.print("学生ID：" + entry.getValue().getId()
-                        + ", 学生姓名 ： " + entry.getValue().getName()
-                        + ", 学生出生日期 ： " + entry.getValue().getBirthDate()
-                );
-                if (entry.getValue().getGender()) {
-                    System.out.println(", 学生性别 ： 男");
-                } else {
-                    System.out.println(", 学生性别 ： 女");
-                }
-                System.out.println("查询成功");
-            }
-        }
-            if (cnt==0)
-            {
-                System.out.println("没有匹配到相关内容！");
-            }
-
-
+		/*
+		#43 入口对象判断不为空
+		*/
+		if(id!=null){
+			for (Map.Entry<Integer,Student> entry : students.entrySet()) {
+				if (id.equals(entry.getKey()))//比较内容是否存在，是的话打印
+				{
+					cnt++;
+					/**/
+					System.out.print("学生ID：" + entry.getValue().getId()
+							+ ", 学生姓名 ： " + entry.getValue().getName()
+							+ ", 学生出生日期 ： " + entry.getValue().getBirthDate()
+					);
+					if (entry.getValue().getGender()) {
+						System.out.println(", 学生性别 ： 男");
+					} else {
+						System.out.println(", 学生性别 ： 女");
+					}
+					System.out.println("查询成功");
+				}
+			}
+				if (cnt==0)
+				{
+					System.out.println("没有匹配到相关内容！");
+				}
+		}
+		else{
+			System.out.println("id为空！");
+		}
+		
+		return ;
+		/*
+		#46 确保有返回值,返回空
+		*/
     }
 
     //输出
@@ -111,14 +154,19 @@ public class StudentManager {
             System.out.println("没有学生！");
         }
         else {
-            ArrayList<Map.Entry<Integer,Student>> list= new ArrayList<Map.Entry<Integer,Student>>(students.entrySet());
+            ArrayList<Map.Entry<Integer,Student>> list = new ArrayList<Map.Entry<Integer,Student>>(students.entrySet());
+			/*
+			#21 单行单个功能
+			*/
             Collections.sort(list,new Comparator<Map.Entry<Integer,Student>>() {
-
                 public int compare(Map.Entry<Integer,Student> o1, Map.Entry<Integer,Student> o2) {
                     return (o1.getKey() - o2.getKey());
                 }
             });
             for(Map.Entry<Integer,Student> entry : list) {
+				/*
+				#16 保证折行恰当
+				*/
                 System.out.print("学生ID：" + entry.getValue().getId()
                         + ", 学生姓名 ： " + entry.getValue().getName()
                         + ", 学生出生日期 ： " + entry.getValue().getBirthDate()
@@ -130,9 +178,19 @@ public class StudentManager {
                     System.out.println(", 学生性别 ： 女");
                 }
             }
-            //因为Map这个类没有继承Iterable接口所以不能直接通过map.iterator来遍历，所以就只能先转化为set类型，用entrySet()方法，其中set中的每一个元素值问就是map中的一个键值对，也就是Map.Entry<K,V>了，然后就可以遍历了。
+			/*
+			#16 保证折行恰当
+			*/
+            /*因为Map这个类没有继承Iterable接口所以不能直接通过map.iterator来遍历，
+			所以就只能先转化为set类型，用entrySet()方法，
+			其中set中的每一个元素值问就是map中的一个键值对，也就是Map.Entry<K,V>了，然后就可以遍历了。*/
             System.out.println("输出成功");
         }
+		
+		return ;
+		/*
+		#46 确保有返回值,返回空
+		*/
     }
 
     //添加
@@ -152,7 +210,11 @@ public class StudentManager {
         students.put(s.getId(), s);
         System.out.println("添加成功");
         //Student.Max++;
-
+		
+		return ;
+		/*
+		#46 确保有返回值,返回空
+		*/
     }
 
 }
